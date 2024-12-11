@@ -108,7 +108,7 @@ void Game::keyPressEvent(QKeyEvent *event) {
 
 //update game frames
 void Game::updateGame() {
-    if(elapsedTimer.elapsed() >= 10000) { //stop elapsedtimer - game ends after miliseconds passed
+    if(elapsedTimer.elapsed() >= 30000) { //stop elapsedtimer - game ends after miliseconds passed
         timer->stop();
         update();
 
