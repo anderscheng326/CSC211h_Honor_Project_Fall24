@@ -8,6 +8,10 @@
 #include <QElapsedTimer>      //for game time
 #include <QFile>              //for file output
 
+#include "bin.h"         //derived classes from base clase gameobjects - for inheritance
+#include "waste.h"
+#include "player.h"
+
 
 namespace Ui {
     class Game;
@@ -36,16 +40,11 @@ private slots:
 
 
 private:
-    struct Object {     //5 objects each with location(x,y) and symbol
-        int x, y;
-        char symbol;
-    };
-
-    Object player;     //user
-    std::vector<Object> fallingObjects;  //falling waste
-    Object caughtObject;                 //check for catching waste
-    Object binRecycle;                   //bin for recycle
-    Object binTrash;                     //bin for trash
+    Player player;     //user
+    std::vector<Waste> fallingObjects;  //falling waste
+    Waste caughtObject;                 //check for catching waste
+    Bin binRecycle;                   //bin for recycle
+    Bin binTrash;                     //bin for trash
     int score=0;                         //intial score is 0
     QTimer *timer;                       //timer for frames
     QElapsedTimer elapsedTimer;          //timer for game time

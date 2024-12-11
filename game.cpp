@@ -1,10 +1,12 @@
 #include "game.h"
+
 #include <QPainter>       //for drawing the board
 #include <QTimer>         //for game frame refresh rate
 #include <QElapsedTimer>  //for game time
 #include <cstdlib>
 #include <QmessageBox>    //for score message after game
 #include <QFont>
+#include <stdexcept>
 
 const int WIDTH = 30;                //board size
 const int HEIGHT = 30;
@@ -106,7 +108,7 @@ void Game::keyPressEvent(QKeyEvent *event) {
 
 //update game frames
 void Game::updateGame() {
-    if(elapsedTimer.elapsed() >= 30000) { //stop elapsedtimer - game ends after miliseconds passed
+    if(elapsedTimer.elapsed() >= 10000) { //stop elapsedtimer - game ends after miliseconds passed
         timer->stop();
         update();
 
@@ -155,13 +157,21 @@ void Game::checkCollisions() {
 
 //file output for game log of score
 void Game::logScore() {
-    QFile file("C:/Users/ander/OneDrive/Documents/Honor2Recycle/scoreLog.txt");
-    if (file.open(QIODevice::Append | QIODevice::Text)) {
+    try {                                //exception handling for file output
+        QFile file("C:/Users/ander/OneDrive/Documents/test/scoreLog.txt");
+        if (!file.open(QIODevice::Append | QIODevice::Text)) {
+            throw std::runtime_error("Failed to open score log file.");
+        }
         QTextStream out(&file);
-        out <<" - Score: "<<score<<"\n";
+        out << " - Score: " << score << "\n";
         file.close();
+    } catch (const std::runtime_error& e) {
+        QMessageBox::critical(this, "Error", e.what());
+    } catch (...) {
+        QMessageBox::critical(this, "Error", "An unknown error occurred while logging the score.");
     }
 }
+
 
 //getting score for scoreboard
 int Game::getScore() const{
